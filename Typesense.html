@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typesense - Discover Perfect Fonts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="Typesense.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto&family=Playfair+Display&family=Inter&family=Lora&family=Open+Sans&family=Merriweather&family=Figtree&family=Space+Grotesk&family=Fraunces&family=Instrument+Sans&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=EB+Garamond&family=Dancing+Script&family=Pacifico&family=Caveat&family=Bebas+Neue&family=Anton&family=Raleway&family=Nunito&family=Work+Sans&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Alex+Brush&family=Tangerine&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
+        }
+
+        .font-card {
+            transition: all 0.3s ease;
+        }
+
+        .font-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .font-preview {
+            font-size: 1.5rem;
+            line-height: 2rem;
+        }
+
+        @media (max-width: 640px) {
+            .font-preview {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-bold text-indigo-600">Typesense</h1>
+                <div class="flex space-x-4">
+                    <button class="px-4 py-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition">Log In</button>
+                    <button class="px-4 py-2 rounded-full border border-indigo-600 text-indigo-600 hover:bg-indigo-50 transition">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="mb-16">
+            <div class="max-w-3xl mx-auto text-center mb-10">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Find Your Perfect Font</h2>
+                <p class="text-lg text-gray-600">Describe the font you're looking for and we'll suggest the best matches</p>
+            </div>
+
+            <div class="max-w-2xl mx-auto relative search-box">
+                <div class="relative">
+                    <input type="text" id="fontPrompt" placeholder="e.g. 'elegant serif font for a wedding invitation'" class="w-full px-6 py-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-lg">
+                    <button id="searchButton" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-indigo-700 transition">
+                        <i class="fas fa-search fa-lg text-white"></i>
+                    </button>
+                </div>
+                <div class="mt-4 flex justify-center">
+                    <button id="editPromptBtn" class="text-indigo-600 hover:text-indigo-800 hidden">
+                        <i class="fas fa-edit mr-2"></i>Edit Prompt
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="resultsSection" class="hidden mb-16">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-2xl font-semibold text-gray-800">We found these fonts for you</h3>
+                <button id="moreFontsBtn" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+                    Show More Options
+                </button>
+            </div>
+
+            <div id="fontResults" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                </div>
+        </section>
+
+        <section id="popularFonts" class="mb-16">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-6">Most Popular Fonts</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg p-6 shadow-md font-card">
+                    <div class="font-preview mb-4" style="font-family: 'Montserrat', sans-serif;">Montserrat</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600"><i class="fas fa-download mr-1"></i> 45K</span>
+                        <a href="https://fonts.google.com/download?family=Montserrat" download="Montserrat.zip" class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition text-center" target="_blank">Download</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md font-card">
+                    <div class="font-preview mb-4" style="font-family: 'Roboto', sans-serif;">Roboto</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600"><i class="fas fa-download mr-1"></i> 38K</span>
+                        <a href="https://fonts.google.com/download?family=Roboto" download="Roboto.zip" class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition text-center" target="_blank">Download</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md font-card">
+                    <div class="font-preview mb-4" style="font-family: 'Poppins', sans-serif;">Poppins</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600"><i class="fas fa-download mr-1"></i> 32K</span>
+                        <a href="https://fonts.google.com/download?family=Poppins" download="Poppins.zip" class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition text-center" target="_blank">Download</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md font-card">
+                    <div class="font-preview mb-4" style="font-family: 'Playfair Display', serif;">Playfair Display</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600"><i class="fas fa-download mr-1"></i> 28K</span>
+                        <a href="https://fonts.google.com/download?family=Playfair+Display" download="PlayfairDisplay.zip" class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition text-center" target="_blank">Download</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="topRatedFonts" class="mb-16">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-6">Best Rated Fonts</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg p-6 shadow-md font-card">
+                    <div class="font-preview mb-4" style="font-family: 'Inter', sans-serif;">Inter</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-yellow-500"><i class="fas fa-star mr-1"></i> 4.9★</span>
+                        <a href="https://fonts.google.com/download?family=Inter" download="Inter.zip" class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition text-center" target="_blank">Download</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md font-card">
+                    <div class="font-preview mb-4" style="font-family: 'Lora', serif;">Lora</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-yellow-500"><i class="fas fa-star mr-1"></i> 4.8★</span>
+                        <a href="https://fonts.google.com/download?family=Lora" download="Lora.zip" class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition text-center" target="_blank">Download</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md font-card">
+                    <div class="font-preview mb-4" style="font-family: 'Open Sans', sans-serif;">Open Sans</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-yellow-500"><i class="fas fa-star mr-1"></i> 4.8★</span>
+                        <a href="https://fonts.google.com/download?family=Open+Sans" download="OpenSans.zip" class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition text-center" target="_blank">Download</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md font-card">
+                    <div class="font-preview mb-4" style="font-family: 'Merriweather', serif;">Merriweather</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-yellow-500"><i class="fas fa-star mr-1"></i> 4.7★</span>
+                        <a href="https://fonts.google.com/download?family=Merriweather" download="Merriweather.zip" class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition text-center" target="_blank">Download</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="newFonts">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-6">Recently Added Fonts</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div class="bg-white rounded-lg p-6 shadow-md font-card">
+                    <div class="font-preview mb-4" style="font-family: 'Figtree', sans-serif;">Figtree</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500 text-sm">Added 2 days ago</span>
+                        <a href="https://fonts.google.com/download?family=Figtree" download="Figtree.zip" class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition text-center" target="_blank">Download</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md font-card">
+                    <div class="font-preview mb-4" style="font-family: 'Space Grotesk', sans-serif;">Space Grotesk</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500 text-sm">Added 1 week ago</span>
+                        <a href="https://fonts.google.com/download?family=Space+Grotesk" download="SpaceGrotesk.zip" class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition text-center" target="_blank">Download</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md font-card">
+                    <div class="font-preview mb-4" style="font-family: 'Fraunces', serif;">Fraunces</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500 text-sm">Added 2 weeks ago</span>
+                        <a href="https://fonts.google.com/download?family=Fraunces" download="Fraunces.zip" class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition text-center" target="_blank">Download</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-md font-card">
+                    <div class="font-preview mb-4" style="font-family: 'Instrument Sans', sans-serif;">Instrument Sans</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-500 text-sm">Added 3 weeks ago</span>
+                        <a href="https://fonts.google.com/download?family=Instrument+Sans" download="InstrumentSans.zip" class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition text-center" target="_blank">Download</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Typesense</h4>
+                    <p class="text-gray-400">Discover the perfect fonts for your projects with our AI-powered search.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Tutorials</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Font Pairings</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">License Information</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2025 Typesense. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="authModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800" id="modalTitle">Sign In</h3>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <button class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                    <i class="fab fa-google text-red-500 mr-2"></i> Continue with Google
+                </button>
+                <button class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                    <i class="fab fa-facebook text-blue-600 mr-2"></i> Continue with Facebook
+                </button>
+
+                <div class="relative flex items-center my-6">
+                    <div class="flex-grow border-t border-gray-300"></div>
+                    <span class="flex-shrink mx-4 text-gray-500">or</span>
+                    <div class="flex-grow border-t border-gray-300"></div>
+                </div>
+
+                <form>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div class="mb-4" id="ageField">
+                        <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                        <input type="number" id="age" min="8" max="100" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <div class="mb-6">
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <input type="password" id="password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+                    <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Continue
+                    </button>
+                </form>
+
+                <p class="text-center text-sm text-gray-600 mt-4">
+                    Don't have an account? <button id="switchToSignup" class="text-indigo-600 hover:text-indigo-500 font-medium">Sign up</button>
+                </p>
+                <p class="text-center text-sm text-gray-600 hidden mt-4">
+                    Already have an account? <button id="switchToSignin" class="text-indigo-600 hover:text-indigo-500 font-medium">Log in</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced font database with direct download links
+        const fontDatabase = {
+            "elegant": [{
+                name: "Playfair Display",
+                type: "serif",
+                downloads: "28K",
+                rating: 4.7,
+                style: "font-family: 'Playfair Display', serif;",
+                link: "https://fonts.google.com/specimen/Playfair+Display",
+                downloadLink: "https://fonts.google.com/download?family=Playfair+Display"
+            }, {
+                name: "Cormorant Garamond",
+                type: "serif",
+                downloads: "12K",
+                rating: 4.6,
+                style: "font-family: 'Cormorant Garamond', serif;",
+                link: "https://fonts.google.com/specimen/Cormorant+Garamond",
+                downloadLink: "https://fonts.google.com/download?family=Cormorant+Garamond"
+            }, {
+                name: "EB Garamond",
+                type: "serif",
+                downloads: "15K",
+                rating: 4.5,
+                style: "font-family: 'EB Garamond', serif;",
+                link: "https://fonts.google.com/specimen/EB+Garamond",
+                downloadLink: "https://fonts.google.com/download?family=EB+Garamond"
+            }],
+            "modern": [{
+                name: "Montserrat",
+                type: "sans-serif",
+                downloads: "45K",
+                rating: 4.8,
+                style: "font-family: 'Montserrat', sans-serif;",
+                link: "https://fonts.google.com/specimen/Montserrat",
+                downloadLink: "https://fonts.google.com/download?family=Montserrat"
+            }, {
+                name: "Inter",
+                type: "sans-serif",
+                downloads: "35K",
+                rating: 4.9,
+                style: "font-family: 'Inter', sans-serif;",
+                link: "https://fonts.google.com/specimen/Inter",
+                downloadLink: "https://fonts.google.com/download?family=Inter"
+            }, {
+                name: "Poppins",
+                type: "sans-serif",
+                downloads: "32K",
+                rating: 4.7,
+                style: "font-family: 'Poppins', sans-serif;",
+                link: "https://fonts.google.com/specimen/Poppins",
+                downloadLink: "https://fonts.google.com/download?family=Poppins"
+            }],
+            "handwritten": [{
+                name: "Dancing Script",
+                type: "script",
+                downloads: "18K",
+                rating: 4.5,
+                style: "font-family: 'Dancing Script', cursive;",
+                link: "https://fonts.google.com/specimen/Dancing+Script",
+                downloadLink: "https://fonts.google.com/download?family=Dancing+Script"
+            }, {
+                name: "Pacifico",
+                type: "script",
+                downloads: "14K",
+                rating: 4.4,
+                style: "font-family: 'Pacifico', cursive;",
+                link: "https://fonts.google.com/specimen/Pacifico",
+                downloadLink: "https://fonts.google.com/download?family=Pacifico"
+            }, {
+                name: "Caveat",
+                type: "script",
+                downloads: "12K",
+                rating: 4.6,
+                style: "font-family: 'Caveat', cursive;",
+                link: "https://fonts.google.com/specimen/Caveat",
+                downloadLink: "https://fonts.google.com/download?family=Caveat"
+            }],
+            "bold": [{
+                name: "Bebas Neue",
+                type: "sans-serif",
+                downloads: "22K",
+                rating: 4.5,
+                style: "font-family: 'Bebas Neue', sans-serif;",
+                link: "https://fonts.google.com/specimen/Bebas+Neue",
+                downloadLink: "https://fonts.google.com/download?family=Bebas+Neue"
+            }, {
+                name: "Anton",
+                type: "sans-serif",
+                downloads: "15K",
+                rating: 4.3,
+                style: "font-family: 'Anton', sans-serif;",
+                link: "https://fonts.google.com/specimen/Anton",
+                downloadLink: "https://fonts.google.com/download?family=Anton"
+            }],
+            "minimal": [{
+                name: "Helvetica",
+                type: "sans-serif",
+                downloads: "30K",
+                rating: 4.7,
+                style: "font-family: Helvetica, sans-serif;",
+                link: "https://www.linotype.com/1308886/helvetica-family.html"
+            }, {
+                name: "Avenir",
+                type: "sans-serif",
+                downloads: "20K",
+                rating: 4.6,
+                style: "font-family: 'Avenir', sans-serif;",
+                link: "https://www.linotype.com/1266/avenir-family.html"
+            }, {
+                name: "Futura",
+                type: "sans-serif",
+                downloads: "18K",
+                rating: 4.5,
+                style: "font-family: 'Futura', sans-serif;",
+                link: "https://www.linotype.com/1145/futura-family.html"
+            }]
+        };
+
+        // DOM elements
+        const fontPrompt = document.getElementById('fontPrompt');
+        const searchButton = document.getElementById('searchButton');
+        const resultsSection = document.getElementById('resultsSection');
+        const fontResults = document.getElementById('fontResults');
+        const moreFontsBtn = document.getElementById('moreFontsBtn');
+        const editPromptBtn = document.getElementById('editPromptBtn');
+        const popularFontsSection = document.getElementById('popularFonts');
+        const topRatedFontsSection = document.getElementById('topRatedFonts');
+        const newFontsSection = document.getElementById('newFonts');
+
+        // Event listeners
+        searchButton.addEventListener('click', searchFonts);
+        moreFontsBtn.addEventListener('click', showMoreFonts);
+        editPromptBtn.addEventListener('click', editPrompt);
+        fontPrompt.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchFonts();
+            }
+        });
+
+        // Auth modal elements
+        const authModal = document.getElementById('authModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const signInBtn = document.querySelector('.flex.space-x-4 button:first-child');
+        const signUpBtn = document.querySelector('.flex.space-x-4 button:last-child');
+        const switchToSignup = document.getElementById('switchToSignup');
+        const switchToSignin = document.getElementById('switchToSignin');
+        const signupText = document.querySelectorAll('p.text-center.text-sm.text-gray-600');
+        const ageField = document.getElementById('ageField');
+
+        // Modal event listeners
+        signInBtn.addEventListener('click', () => {
+            authModal.classList.remove('hidden');
+            modalTitle.textContent = 'Sign In';
+            signupText[0].classList.remove('hidden');
+            signupText[1].classList.add('hidden');
+            ageField.classList.add('hidden');
+        });
+
+        signUpBtn.addEventListener('click', () => {
+            authModal.classList.remove('hidden');
+            modalTitle.textContent = 'Sign Up';
+            signupText[0].classList.add('hidden');
+            signupText[1].classList.remove('hidden');
+            ageField.classList.remove('hidden');
+        });
+
+        closeModal.addEventListener('click', () => {
+            authModal.classList.add('hidden');
+        });
+
+        switchToSignup.addEventListener('click', () => {
+            modalTitle.textContent = 'Sign Up';
+            signupText[0].classList.add('hidden');
+            signupText[1].classList.remove('hidden');
+            ageField.classList.remove('hidden');
+        });
+
+        switchToSignin.addEventListener('click', () => {
+            modalTitle.textContent = 'Sign In';
+            signupText[0].classList.remove('hidden');
+            signupText[1].classList.add('hidden');
+            ageField.classList.add('hidden');
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                authModal.classList.add('hidden');
+            }
+        });
+
+        // Search function
+        function searchFonts() {
+            const promptText = fontPrompt.value.toLowerCase().trim();
+
+            if (!promptText) {
+                alert('Please enter a description of the font you want');
+                return;
+            }
+
+            let allFonts = [];
+            for (const category in fontDatabase) {
+                allFonts = allFonts.concat(fontDatabase[category]);
+            }
+
+            const matchedFonts = allFonts.map(font => {
+                let score = 0;
+                if (font.name.toLowerCase().includes(promptText)) {
+                    score += 5;
+                }
+                if (promptText.includes('serif') && font.type === 'serif') {
+                    score += 3;
+                }
+                if (promptText.includes('sans') && font.type === 'sans-serif') {
+                    score += 3;
+                }
+                if (promptText.includes('script') && font.type === 'script') {
+                    score += 3;
+                }
+                const styleKeywords = [{
+                    terms: ['elegant', 'classy', 'wedding', 'formal'],
+                    score: 2
+                }, {
+                    terms: ['modern', 'clean', 'simple', 'minimal'],
+                    score: 2
+                }, {
+                    terms: ['handwritten', 'script', 'casual', 'fun'],
+                    score: 2
+                }, {
+                    terms: ['bold', 'strong', 'impact', 'heavy'],
+                    score: 2
+                }, {
+                    terms: ['minimal', 'sleek', 'basic', 'plain'],
+                    score: 2
+                }];
+                styleKeywords.forEach(keyword => {
+                    if (keyword.terms.some(term => promptText.includes(term))) {
+                        score += keyword.score;
+                    }
+                });
+                return { ...font,
+                    score
+                };
+            }).filter(font => font.score > 0).sort((a, b) => b.score - a.score).slice(0, 6);
+
+            if (matchedFonts.length === 0) {
+                displayFontResults(fontDatabase.modern.slice(0, 3));
+                alert("We couldn't find exact matches, but here are some popular modern fonts you might like");
+            } else {
+                displayFontResults(matchedFonts);
+            }
+
+            resultsSection.classList.remove('hidden');
+            popularFontsSection.classList.add('hidden');
+            topRatedFontsSection.classList.add('hidden');
+            newFontsSection.classList.add('hidden');
+            editPromptBtn.classList.remove('hidden');
+        }
+
+        // Display font results
+        function displayFontResults(fonts) {
+            fontResults.innerHTML = '';
+            fonts.forEach(font => {
+                const fontCard = document.createElement('div');
+                fontCard.className = 'bg-white rounded-lg p-6 shadow-md font-card';
+                const downloadUrl = font.downloadLink || '#';
+                const downloadBtn = font.downloadLink ?
+                    `<a href="${downloadUrl}" download="${font.name.replace(/ /g, '')}.zip" class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition" target="_blank">Download</a>` :
+                    `<button class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition" disabled>Download</button>`;
+
+                fontCard.innerHTML = `
+                    <div class="font-preview mb-4" style="${font.style}">${font.name}</div>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="text-gray-600 mr-3"><i class="fas fa-download mr-1"></i> ${font.downloads || 'N/A'}</span>
+                            <span class="text-yellow-500"><i class="fas fa-star mr-1"></i> ${font.rating || 'N/A'}</span>
+                        </div>
+                        ${downloadBtn}
+                    </div>
+                `;
+                fontResults.appendChild(fontCard);
+            });
+        }
+
+        // Show more fonts function
+        function showMoreFonts() {
+            const promptText = fontPrompt.value.toLowerCase().trim();
+            let additionalFonts = [];
+            if (promptText.includes('elegant') || promptText.includes('classy') || promptText.includes('wedding')) {
+                additionalFonts = [{
+                    name: "Great Vibes",
+                    type: "script",
+                    downloads: "10K",
+                    rating: 4.4,
+                    style: "font-family: 'Great Vibes', cursive;",
+                    downloadLink: "https://fonts.google.com/download?family=Great+Vibes"
+                }, {
+                    name: "Alex Brush",
+                    type: "script",
+                    downloads: "8K",
+                    rating: 4.3,
+                    style: "font-family: 'Alex Brush', cursive;",
+                    downloadLink: "https://fonts.google.com/download?family=Alex+Brush"
+                }, {
+                    name: "Tangerine",
+                    type: "script",
+                    downloads: "7K",
+                    rating: 4.2,
+                    style: "font-family: 'Tangerine', cursive;",
+                    downloadLink: "https://fonts.google.com/download?family=Tangerine"
+                }];
+            } else if (promptText.includes('modern') || promptText.includes('clean') || promptText.includes('simple')) {
+                additionalFonts = [{
+                    name: "Raleway",
+                    type: "sans-serif",
+                    downloads: "25K",
+                    rating: 4.6,
+                    style: "font-family: 'Raleway', sans-serif;",
+                    downloadLink: "https://fonts.google.com/download?family=Raleway"
+                }, {
+                    name: "Nunito",
+                    type: "sans-serif",
+                    downloads: "20K",
+                    rating: 4.5,
+                    style: "font-family: 'Nunito', sans-serif;",
+                    downloadLink: "https://fonts.google.com/download?family=Nunito"
+                }, {
+                    name: "Work Sans",
+                    type: "sans-serif",
+                    downloads: "18K",
+                    rating: 4.7,
+                    style: "font-family: 'Work Sans', sans-serif;",
+                    downloadLink: "https://fonts.google.com/download?family=Work+Sans"
+                }];
+            } else {
+                additionalFonts = [{
+                    name: "Roboto Slab",
+                    type: "serif",
+                    downloads: "19K",
+                    rating: 4.5,
+                    style: "font-family: 'Roboto Slab', serif;",
+                    downloadLink: "https://fonts.google.com/download?family=Roboto+Slab"
+                }, {
+                    name: "Lato",
+                    type: "sans-serif",
+                    downloads: "17K",
+                    rating: 4.6,
+                    style: "font-family: 'Lato', sans-serif;",
+                    downloadLink: "https://fonts.google.com/download?family=Lato"
+                }, {
+                    name: "Oswald",
+                    type: "sans-serif",
+                    downloads: "15K",
+                    rating: 4.4,
+                    style: "font-family: 'Oswald', sans-serif;",
+                    downloadLink: "https://fonts.google.com/download?family=Oswald"
+                }];
+            }
+            displayFontResults(additionalFonts);
+        }
+
+        function editPrompt() {
+            resultsSection.classList.add('hidden');
+            popularFontsSection.classList.remove('hidden');
+            topRatedFontsSection.classList.remove('hidden');
+            newFontsSection.classList.remove('hidden');
+            editPromptBtn.classList.add('hidden');
+            fontPrompt.value = '';
+        }
+    </script>
+</body>
+
+</html>
