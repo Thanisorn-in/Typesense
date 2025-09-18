@@ -1,0 +1,143 @@
+/* ---------- GLOBAL ---------- */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb; /* เทาอ่อนเหมือนในรูป */
+    color: #111827; /* เทาเข้ม */
+  }
+  
+  /* ---------- HEADER ---------- */
+  header {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  
+  header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4f46e5; /* Indigo */
+  }
+  
+  /* ---------- SEARCH ---------- */
+  #fontPrompt {
+    border: 1px solid #d1d5db;
+    transition: border 0.2s, box-shadow 0.2s;
+  }
+  
+  #fontPrompt:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.2);
+    outline: none;
+  }
+  
+  /* ---------- FONT CARDS ---------- */
+  .font-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem; /* rounded-2xl */
+    padding: 1.25rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .font-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+  }
+  
+  .font-card h3 {
+    display: inline-flex;
+    align-items: center;
+    gap: 0px; /* ปรับเป็น 0px ได้ถ้าอยากให้ติดกันสนิท */
+    color: #fbbf24; /* สีเหลือง */
+    font-weight: 500;
+  }
+  
+  /* ---------- PREVIEW TEXT ---------- */
+  .font-preview {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    margin-bottom: 1rem;
+    color: #374151;
+  }
+  
+  /* ---------- BUTTON ---------- */
+  .btn-primary {
+    background: #4f46e5;
+    color: white;
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background 0.2s;
+  }
+  
+  .btn-primary:hover {
+    background: #4338ca;
+  }
+  
+  /* ---------- MODAL ---------- */
+  .modal {
+    display: none; /* ซ่อนเริ่มต้น */
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal.active {
+    display: flex;
+  }
+  
+  .modal-content {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .modal-content h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .modal-content input {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .modal-content input:focus {
+    border-color: #4f46e5;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(79,70,229,0.2);
+  }
+  
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: #6b7280;
+    transition: color 0.2s;
+  }
+  
+  .modal-close:hover {
+    color: #111827;
+  }
+  
+  /* ---------- ANIMATIONS ---------- */
+  @keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.95);}
+    to {opacity: 1; transform: scale(1);}
+  }
+  
